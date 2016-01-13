@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("CompilerLab")]
+[assembly: AssemblyTitle("LexicalAnalyzer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CompilerLab")]
+[assembly: AssemblyProduct("LexicalAnalyzer")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("974f5d33-b89a-4713-810a-01b6a405c67b")]
+[assembly: Guid("2304da54-5a97-4a68-adc4-5bde66075179")]
 
 // Version information for an assembly consists of the following four values:
 //
