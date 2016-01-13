@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace LexicalAnalyzer
 {
-    public static class Parser
+    public static class Tokenizer
     {
-        public static List<string> TokenizeSource(string[] codeLines)
+        public static List<string> TokenizeSource(string codePath, bool saveTemporary)
         {
-            var normalizedCode = Scanner.ScanSource(codeLines);
+            var normalizedCode = Scanner.ScanSource(File.ReadAllLines(codePath));
+            if (saveTemporary)
+            {
+                File.WriteAllText(Path.GetFileNameWithoutExtension(codePath) + ".s1", normalizedCode.ToString());
+            }
             var tokensTemp = normalizedCode.ToString().Split(' ', ',', '{', '}');
             var tokensFinal = new List<string>();
             foreach (var token in tokensTemp)
@@ -25,6 +30,10 @@ namespace LexicalAnalyzer
                     tokensFinal.Add("Assignment Operator : " + token);
                 else if (Constants.KeyWords.Contains(token))
                     tokensFinal.Add("Keyword : " + token);
+            }
+            if (saveTemporary)
+            {
+                File.WriteAllLines(Path.GetFileNameWithoutExtension(codePath) + ".s2", tokensFinal);
             }
             return tokensFinal;
         }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilerLab", "CompilerLab\CompilerLab.csproj", "{400EB576-FD89-4E0B-AE26-F8709CBB669B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiler", "CompilerLab\Compiler.csproj", "{400EB576-FD89-4E0B-AE26-F8709CBB669B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LexicalAnalyzer", "LexicalAnalyzer\LexicalAnalyzer.csproj", "{2AAF6C3A-B284-4A16-87D9-552C339B96E9}"
 EndProject
