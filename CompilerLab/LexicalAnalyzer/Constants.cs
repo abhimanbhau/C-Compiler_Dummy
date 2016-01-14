@@ -6,7 +6,6 @@ namespace LexicalAnalyzer
     {
         public static readonly List<string> KeyWords = new List<string>
         {
-            "auto",
             "break",
             "case",
             "char",
@@ -92,6 +91,14 @@ namespace LexicalAnalyzer
             "&",
             "|",
             "!"
+        };
+
+        public static readonly List<string> FunctionOrArraySig = new List<string>
+        {
+            "(",
+            ")",
+            "[",
+            "]"
         };
     }
 }
