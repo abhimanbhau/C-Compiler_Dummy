@@ -1,0 +1,27 @@
+﻿int main()
+{
+	// Abhiman
+	/* Hello */
+	int abc;
+	float abc12;
+	double 12abc;
+	int abc@#;
+	float = 123.4;
+	int num = 123;
+	int a = 12;
+	int d[1];
+	char aa;
+	for( a = 0; a < 10; a++)
+	{
+		function(10);
+		if( a <= 10 )
+		{
+			a = a&b;
+		}
+		else if( a==3 )
+		{
+			a = a&&a;
+		}
+	}
+	return 0;
+}
