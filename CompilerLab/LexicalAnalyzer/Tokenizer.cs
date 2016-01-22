@@ -17,7 +17,7 @@ namespace LexicalAnalyzer
 			unIdentified = new List<string> ();
 				
 			if (saveTemporary) {
-				File.WriteAllText (Path.GetFileNameWithoutExtension (codePath) + ".s1", normalizedCode.ToString ());
+				File.WriteAllText (Path.GetFileNameWithoutExtension (codePath) + ".s1.txt", normalizedCode.ToString ());
 			}
 			var tokensTemp = normalizedCode.ToString ().Split (' ', ',', '{', '}');
 			var tokensFinal = new List<string> ();
@@ -60,6 +60,9 @@ namespace LexicalAnalyzer
 								tokensFinal.Add ("Function : " + tempToken);
 							} else if (tempToken.Contains ("[") && tempToken.Contains ("]")) {
 								tokensFinal.Add ("Array Variable : " + tempToken);
+							} else if (tempToken.Trim ().Contains ("``")) {
+								tokensFinal.Add ("MultLine Comment : " + tempToken.Replace ("@@", "")
+								.Replace ("``", "").Replace ("~", " "));
 							} else {
 								unIdentified.Add (tempToken);
 							}
@@ -68,8 +71,11 @@ namespace LexicalAnalyzer
 						} else if (tempToken.Contains (")")) {
 							tokensFinal.Add ("Closing bracket : " + tempToken);
 						} else if (tempToken.StartsWith ("$$")) {
-							tokensFinal.Add ("Comment : " + tempToken.Replace("$$", "//")
-								.Replace("`", " "));
+							tokensFinal.Add ("Comment : " + tempToken.Replace ("$$", "//")
+								.Replace ("~", " "));
+						} else if (tempToken.Contains ("@@") || tempToken.Trim ().Contains ("``")) {
+							tokensFinal.Add ("MultLine Comment : " + tempToken.Replace ("@@", "")
+								.Replace ("``", "").Replace ("~", " "));
 						} else {
 							unIdentified.Add (tempToken);
 						}
@@ -77,8 +83,8 @@ namespace LexicalAnalyzer
 				}
 			}
 			if (saveTemporary) {
-				File.WriteAllLines (Path.GetFileNameWithoutExtension (codePath) + ".s2", tokensFinal);
-				File.WriteAllLines (Path.GetFileNameWithoutExtension (codePath) + ".s2.invalid", unIdentified);
+				File.WriteAllLines (Path.GetFileNameWithoutExtension (codePath) + ".s2.txt", tokensFinal);
+				File.WriteAllLines (Path.GetFileNameWithoutExtension (codePath) + ".s2.invalid.txt", unIdentified);
 			}
 			return tokensFinal;
 		}

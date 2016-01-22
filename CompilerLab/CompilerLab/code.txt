@@ -23,4 +23,10 @@
 		}
 	}
 	return 0;
+	/*
+	This is a multiline comment.
+	It has 2 lines.
+	maybe 3rd
+	and last
+	*/
 }
