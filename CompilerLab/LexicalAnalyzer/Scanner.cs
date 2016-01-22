@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace LexicalAnalyzer
 {
@@ -10,7 +11,16 @@ namespace LexicalAnalyzer
         {
             var normalizedBuffer = new StringBuilder();
 
-            foreach (var line in codeLines)
+			var codeLinesNew = new List<string> ();
+
+			foreach (var line in codeLines) {
+				if (line.Trim().StartsWith ("//")) {
+					codeLinesNew.Add (line.Replace ("//", "$$").Replace (" ", "`"));
+				} else
+					codeLinesNew.Add (line);
+			}
+
+            foreach (var line in codeLinesNew)
             {
                 foreach (var character in line)
                 {

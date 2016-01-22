@@ -19,7 +19,8 @@ namespace CompilerLab
             {
                 Console.WriteLine(token);
             }
-            Console.Read();
+			Console.WriteLine ("\n\nError tokens");
+			Tokenizer.unIdentified.ForEach (Console.WriteLine);
         }
 
         public static void PrintUsage()

@@ -1,5 +1,6 @@
 ﻿int main()
 {
+	// this is a single line comment
 	int abc;
 	float abc12;
 	double 12abc;
