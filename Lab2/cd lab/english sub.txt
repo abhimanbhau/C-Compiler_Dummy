@@ -1,0 +1,85 @@
+Code:
+
+%{Program for subsets of English Language.
+int i=0;
+int j=0;
+int k=0;
+int l=0;
+int m=0;
+int n=0;
+int o=0;
+int p=0;
+int q=0;
+int r=0;
+int s=0;
+%}
+
+%%
+"student"|"part"|"country"|"citizen" {printf("%s Common Noun\n",yytext);  i = i+1 ;}
+"Sunil"|"India"|"school"             {printf("%s Proper Noun\n",yytext);  j = j+1 ;}
+"a"|"an"|"the"                       {printf("%s Article\n",yytext);  k = k+1 ;}
+"he"|"she"|"it"|"I"                  {printf("%s Pronoun\n",yytext);  l = l+1 ;}
+"is"|"are"|"was"                     {printf("%s Helping Verb\n",yytext); m = m+1; }
+"responsible"|"important"            {printf("%s Adjective\n",yytext);  n = n+1 ;}
+"playing"|"helping"|"going"          {printf("%s Verb\n",yytext);  o = o+1 ;}
+"daily"|"completely"                 {printf("%s Adverb\n",yytext); p = p+1 ;}
+"to"|"of"|"at"                       {printf("%s Preposition\n",yytext); q = q+1; }
+"when"|"but"|"and"                   {printf("%s Conjuntion\n",yytext);  r = r+1 ;}
+"."                                  {printf("%s Full Stop\n",yytext);  s = s+1 ;}
+%%
+
+void main(int argc, char *argv[])
+{
+    FILE *fp;
+    if(argc == 2 && ( fp = fopen(argv[1],"r")))
+            yyin = fp;
+    yylex();
+    printf("No of Common Noun : %d\n",i);
+    printf("No of Proper Noun : %d\n",j);
+    printf("No of Article  : %d\n",k);
+    printf("No of Pronoun : %d\n",l);
+    printf("No of Helping Verb : %d\n",m);
+    printf("No of Adjective : %d\n",n);
+    printf("No of Verb : %d\n",o);
+    printf("No of Adverb : %d\n",p);
+    printf("No of Preposition : %d\n",q);
+    printf("No of Conjunction : %d\n",r);
+    printf("No of Full Stop : %d\n",s);
+    
+}
+Input:
+
+Sunil is responsible citizen of India.
+student is important part of country.
+
+Output:
+
+ Sunil             Proper Noun
+ is                Helping Verb
+ responsible 	   Adjective
+ citizen           Common Noun
+ of                Preposition
+ India             Proper Noun
+ .                 Full Stop
+
+ student           Common Noun
+ is                Helping Verb
+ important         Adjective
+ part              Common Noun
+ of                Preposition
+ country           Common Noun
+ .                 Full Stop
+
+No of Common Noun : 4
+No of Proper Noun : 2
+No of Article  : 0
+No of Pronoun : 0
+No of Helping Verb : 2
+No of Adjective : 2
+No of Verb : 0
+No of Adverb : 0
+No of Preposition : 2
+No of Conjunction : 0
+No of Full Stop : 2
+
+

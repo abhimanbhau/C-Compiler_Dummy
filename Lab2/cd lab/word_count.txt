@@ -1,0 +1,31 @@
+Implement word count program using LEX. Input file name as command line argument
+
+%{
+int cno = 0, wno = 0, lno = 0; 
+%}
+
+character [A-Za-z0-9]+
+line \n 
+
+%%
+                        
+{line} { cno++; lno++; }
+{character} { wno++; cno += strlen(yytext); }
+. { cno++; }
+
+%%
+
+main(int arg1, char **arg2)
+{
+    FILE *fp;
+    fp=fopen(arg2[1],"r");
+    	yyin=fp;
+    yylex();
+    printf("Number of characters:%d;\n ", cno);
+    printf("Number of words:%d;\n ", wno);
+    printf("Number of lines:%d\n", lno);
+    }
+    int yywrap()
+    {
+    return 1;
+    }

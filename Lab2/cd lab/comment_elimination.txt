@@ -1,0 +1,69 @@
+
+
+
+
+
+
+
+
+Code:
+%{
+   //count the number of comment line in c program,delete it and store the output in another c program
+   #include<stdio.h>
+    int count=0;
+%}
+
+%%
+"/*"[^\n]*"*/" {count++;}
+"/*"[^\n]*\n   {count++;}
+[^\n]*"*/"
+"//"[^\n]*      {count++;}
+"\t"
+"[^ \n]*"
+%%
+
+int main()
+{
+yyin=fopen("read.c", "r");
+yyout=fopen("write.c", "w");
+yylex();
+printf("Count of comment line=%d\n",count);
+return 0;
+}
+
+
+
+
+Input File :
+#include<stdio.h>
+
+int main()
+{
+ int a,b;  //variable decalartion
+ printf("hello world");
+ /* it shows message
+ /*hello world*/ */
+}
+
+
+
+Output File :
+#include<stdio.h>
+
+int main()
+{
+ int a,b;  
+ printf("hello world");
+ 
+}
+
+
+
+Output :
+karan@karan-Lenovo-IdeaPad-Z510:~$ lex comment.l
+karan@karan-Lenovo-IdeaPad-Z510:~$ gcc lex.yy.c -ll
+karan@karan-Lenovo-IdeaPad-Z510:~$ ./a.out
+Count of comment line=2
+karan@karan-Lenovo-IdeaPad-Z510:~$ 
+
+

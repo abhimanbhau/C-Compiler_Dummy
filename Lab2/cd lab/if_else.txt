@@ -1,0 +1,141 @@
+
+
+
+lex file : 
+char [A-Za-z]
+digit [0-9]
+%%
+if                 return IF;
+then                 return THEN;
+else                 return ELSE;
+{char}({char}|{digit})*    return ID;
+{digit}+             {yylval=atoi(yytext); return NUM;}
+[ \t]                 ;
+\n                yyterminate();
+.                 return yytext[0];
+%%
+
+
+yacc file :
+
+%verbose-error
+%token IF THEN ELSE ID NUM
+%right '='
+%left '+' '-'
+%left '*' '/'
+%left UMINUS
+%%
+S : IF '(' D ')'{fun1();} THEN D ';'{fun2();} ELSE D ';'{fun3();}
+  ;
+D : I '='{push();} D{code_ass();}
+  | D '+'{push();} D{code();}
+  | D '-'{push();} D{code();}
+  | D '*'{push();} D{code();}
+  | D '/'{push();} D{code();}
+  | '(' D ')'
+  | '-'{push();} D{code_umin();} %prec UMINUS
+  | I
+  | NUM{push();}
+  ;
+I : ID {push();}
+  ;
+%%
+
+#include "lex.yy.c"
+#include<string.h>
+char st[100][10];
+int top=0;
+char i_[2]="0";
+char temp[2]="t";
+
+int label[20];
+int lnum=0;
+int ltop=0;
+
+main()
+ {
+ printf("Enter the expression : ");
+ yyparse();
+
+ }
+void yyerror (char const *s) {
+   fprintf (stderr, "%s\n", s);
+ }
+push()
+ {
+  strcpy(st[++top],yytext);
+ }
+
+code()
+ {
+ strcpy(temp,"t");
+ strcat(temp,i_);
+  printf("%s = %s %s %s\n",temp,st[top-2],st[top-1],st[top]);
+  top-=2;
+ strcpy(st[top],temp);
+ i_[0]++;
+ }
+
+code_umin()
+ {
+ strcpy(temp,"t");
+ strcat(temp,i_);
+ printf("%s = -%s\n",temp,st[top]);
+ top--;
+ strcpy(st[top],temp);
+ i_[0]++;
+ }
+
+code_ass()
+ {
+ printf("%s = %s\n",st[top-2],st[top]);
+ top-=2;
+ }
+
+fun1()
+{
+ lnum++;
+ strcpy(temp,"t");
+ strcat(temp,i_);
+ printf("%s = not %s\n",temp,st[top]);
+ printf("if %s goto L%d\n",temp,lnum);
+ i_[0]++;
+ label[++ltop]=lnum;
+}
+
+fun2()
+{
+int x;
+lnum++;
+x=label[ltop--];
+printf("goto L%d\n",lnum);
+printf("L%d: \n",x);
+label[++ltop]=lnum;
+}
+
+fun3()
+{
+int y;
+y=label[ltop--];
+printf("L%d: \n",y);
+}
+
+
+Output :
+karan@karan-Lenovo-IdeaPad-Z510:~$ lex abc.l
+karan@karan-Lenovo-IdeaPad-Z510:~$ yacc -d abc.y
+karan@karan-Lenovo-IdeaPad-Z510:~$ gcc y.tab.c -ll -lm
+karan@karan-Lenovo-IdeaPad-Z510:~$ ./a.out
+Enter the expression : if(a-8) then a=a*9; else a=7+9;
+t0 = a - 8
+t1 = not t0
+if t1 goto L1
+t2 = a * 9
+a = t2
+goto L2
+L1: 
+t3 = 7 + 9
+a = t3
+L2: 
+karan@karan-Lenovo-IdeaPad-Z510:~$ 
+

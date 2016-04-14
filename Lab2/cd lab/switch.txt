@@ -1,0 +1,169 @@
+switch.l
+
+char [A-Za-z]
+digit [0-9]
+%%
+[ \t\n]  
+switch return SWITCH;
+case return CASE;
+break return BREAK;
+default return DEFAULT;
+{digit}+ return NUM;
+{char}({char}|{char})* return character;
+"<="    return LE;
+"<"     return LT;
+">="    return GE;
+">"     return GT;
+"=="    return EQ;
+"!="    return NE;
+"||"    return OR;
+"&&"    return AND;
+.    return yytext[0];
+%%
+
+switch.y
+
+%{
+#include <stdio.h>
+#include <stdlib.h>
+%}
+%error-verbose
+
+%token character NUM SWITCH CASE DEFAULT BREAK LE GE EQ NE OR AND GT LT
+%right '='
+%left AND OR
+%left GT LT LE GE EQ NE
+%left '+''-'
+%left '*''/'
+%%
+
+S       : ST {printf("THE INPUT ENTERED IS ACCEPTED.\n");exit(0);}
+         ;
+ST     :    SWITCH '(' character ')' '{' B '}'|SWITCH '(' NUM ')' '{' B '}'
+         ;
+   
+B       :    C
+         |    C    D
+        ;
+   
+C      :    C    C
+        |    CASE NUM ':' E ';'|CASE character ':' E ';'
+       
+        | BREAK ';'
+        ;
+
+D      :    DEFAULT    ':' E ';' BREAK ';'
+        ;
+    
+E    : character'='E
+    | E'+'E
+    | E'-'E
+    | E'*'E
+    | E'/'E
+    | E LT E
+    | E GT E
+    | E LE E
+    | E GE E
+    | E EQ E
+    | E NE E
+    | E OR E
+    | E AND E
+    | character
+    | NUM
+    ;
+
+%%
+
+#include "lex.yy.c"
+
+main()
+{
+printf("EXPRESSION:\n\n ");
+yyparse();
+}
+
+
+
+OUTPUT:
+
+
+student@1308-17:~/Desktop$ lex switch.l
+student@1308-17:~/Desktop$ yacc switch.y
+switch.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
+student@1308-17:~/Desktop$ gcc y.tab.c -lm -ll -ly
+student@1308-17:~/Desktop$ ./a.out
+EXPRESSION:
+
+ switch(z)
+{
+case 1:p=100;
+break;
+case 2:p=50;
+break;
+default:p=0;
+break;
+}
+THE INPUT ENTERED IS ACCEPTED.
+student@1308-17:~/Desktop$ ./a.out
+EXPRESSION:
+
+ switch(1)
+{
+case a:z=101;
+break;
+case b:y=102;
+break;
+default:x=10;   
+break;
+}
+THE INPUT ENTERED IS ACCEPTED.
+student@1308-17:~/Desktop$ lex switch.l
+student@1308-17:~/Desktop$ yacc switch.y
+switch.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
+student@1308-17:~/Desktop$ gcc y.tab.c -lm -ll -ly
+student@1308-17:~/Desktop$ ./a.out
+EXPRESSION:
+
+ switch(z)
+{
+case 1:p=100;
+break;
+case 2:p=50;
+break;
+default:p=0;
+break;
+}
+THE INPUT ENTERED IS ACCEPTED.
+student@1308-17:~/Desktop$ ./a.out
+EXPRESSION:
+
+ switch(1)
+{
+case a:z=101;
+break;
+case b:y=102;
+break;
+default:x=10;   
+break;
+}
+THE INPUT ENTERED IS ACCEPTED.
+student@1308-17:~/Desktop$ yacc switch.y
+switch.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
+student@1308-17:~/Desktop$ gcc y.tab.c -lm -ll -ly
+student@1308-17:~/Desktop$ ./a.out
+EXPRESSION:
+
+ switch{1}
+syntax error, unexpected '{', expecting '('
+student@1308-17:~/Desktop$ ./a.out
+EXPRESSION:
+
+ switch(1)
+{
+caes a:z=101;
+syntax error, unexpected character, expecting CASE or BREAK
+
+
+
+
+

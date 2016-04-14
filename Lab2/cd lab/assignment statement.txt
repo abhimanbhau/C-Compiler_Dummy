@@ -1,0 +1,218 @@
+Assignment No. 5
+
+Name: Sayali Shinde
+Roll No. : 61
+
+Problem Statement : Generate Intermediate code for input “C” language assignment statement.
+
+LEX File :
+
+/* LEX FILE */
+
+%{
+#include "y.tab.h"
+extern char yylval;
+%}
+
+NUMBER [0-9]+
+LETTER [a-zA-Z]+
+
+%%
+
+
+{NUMBER} {yylval.place=(char)yytext[0]; return NUMBER;}
+{LETTER} {yylval.place=(char)yytext[0];return LETTER;}
+
+\n {return 0;}
+. {return yytext[0];}
+
+%%
+
+
+
+YACC File :
+
+/* yacc file */
+
+%{
+
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+void ThreeAddressCode();
+void qudraple();
+char AddToTable(char ,char, char);
+
+int ind=0;
+char temp='A';
+
+struct incod
+{
+char opd1;
+char opd2;
+char opr;
+};
+%}
+
+%union
+{
+char place;
+}
+
+%token <place> LETTER NUMBER
+%type <place> expr
+%left '-''+'
+%right '*''/'
+
+%%
+
+statement: LETTER '=' expr ';' {AddToTable((char)$1,(char)$3,'=');}
+| expr ';'
+;
+
+expr: expr '+' expr {$$ = AddToTable((char)$1,(char)$3,'+');}
+| expr '-' expr {$$ = AddToTable((char)$1,(char)$3,'-');}
+| expr '*' expr {$$ = AddToTable((char)$1,(char)$3,'*');}
+| expr '/' expr {$$ = AddToTable((char)$1,(char)$3,'/');}
+| '(' expr ')' {$$ = (char)$2;}
+| NUMBER {$$ = (char)$1;}
+| LETTER {$$ = (char)$1;}
+;
+
+%%
+
+yyerror(char *s)
+{
+printf("%s",s);
+exit(0);
+}
+
+struct incod code[20];
+
+int id=0;
+
+char AddToTable(char opd1,char opd2,char opr)
+{
+code[ind].opd1=opd1;
+code[ind].opd2=opd2;
+code[ind].opr=opr;
+ind++;
+temp++;
+return temp;
+}
+
+void ThreeAddressCode()
+{
+int cnt=0;
+temp++;
+
+printf("\n\n\t THREE ADDRESS CODE\n\n");
+printf("Result	opd1	opr	opd2\n\n");
+while(cnt<ind)
+{
+  printf("%c : = \t",temp);
+  if(isalpha(code[cnt].opd1))
+  printf("%c\t",code[cnt].opd1);
+else
+  {printf("%c\t",temp);}
+
+   printf("%c\t",code[cnt].opr);
+
+   if(isalpha(code[cnt].opd2))
+   printf("%c\t",code[cnt].opd2);
+else
+   {printf("%c\t",temp);}
+
+    printf("\n"); 
+    cnt++;
+    temp++;
+}
+}
+
+void quadraple()
+{
+  int cnt=0;
+  temp++;
+  printf("\n\n\t QUADRAPLE CODE\n\n");
+printf("id	opr	opd1	opd2	Result\n\n");
+while(cnt<ind)
+{
+//printf("%c : = \t",temp);
+ printf("%d",id);
+ printf("\t");
+ printf("%c",code[cnt].opr);
+ printf("\t");
+
+if(isalpha(code[cnt].opd1))
+printf("%c\t",code[cnt].opd1);
+
+else
+{printf("%c\t",temp);}
+
+//printf("%c\t",code[cnt].opr);
+
+if(isalpha(code[cnt].opd2))
+printf("%c\t",code[cnt].opd2);
+else
+{printf("%c\t",temp);}
+
+printf("%c",temp);
+
+printf("\n");
+cnt++;
+temp++;
+id++;
+
+}
+}
+
+
+main()
+{
+printf("\nEnter the Expression: ");
+yyparse();
+temp='A';
+ThreeAddressCode();
+temp='A';
+quadraple();
+
+}
+
+yywrap()
+{
+return 1;
+}
+
+
+
+Output :
+
+student@unix23-OptiPlex-360:~/Desktop$ lex tac.l
+student@unix23-OptiPlex-360:~/Desktop$ yacc -d tac.y
+student@unix23-OptiPlex-360:~/Desktop$ cc lex.yy.c y.tab.c -lm -ll
+student@unix23-OptiPlex-360:~/Desktop$ ./a.out
+
+Enter the Expression: a=b*(c-d)+s;
+
+
+	 THREE ADDRESS CODE
+
+Result	opd1	opr	opd2
+
+B : = 	c	-	d	
+C : = 	b	*	B	
+D : = 	C	+	s	
+E : = 	a	=	D	
+
+
+	 QUADRAPLE CODE
+
+id	opr	opd1	opd2	Result
+
+0	-	c	d	B
+1	*	b	B	C
+2	+	C	s	D
+3	=	a	D	E
+student@unix23-OptiPlex-360:~/Desktop$
+

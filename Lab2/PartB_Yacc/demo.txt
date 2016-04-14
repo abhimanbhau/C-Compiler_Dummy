@@ -1,0 +1,2 @@
+if(a<b){a=b+c;}else{a=b+c;}
+while(a<b){a=b+c;}

@@ -1,0 +1,112 @@
+
+
+
+Code: 
+
+
+%{
+ // find the subset of C language
+ int keyword=0,lines=0,headercount=0,operand=0,function=0,identifier=0;
+
+%}
+ 
+digit [0-9]+
+header [t]*"#include<"[a-z]+".h>"
+operator "+"|"*"|"-"|"/"|"="|"&&"|"||"|"=="
+delimiter "{"|"["|"("|"}"|"]"|")"|";"|","
+function "main()"
+keyword "if"|"else"|"else if"|"for"|"while"|"do"|"return"|"printf"|"scanf"|"void"|"int"|"float"|"char"|"double"|"short"
+variable [a-zA-Z]*
+
+
+ 
+%%
+{digit} {printf("\n %s\t\tinteger",yytext);} operand++;
+{header} {printf("\n %s\t\theader file",yytext);} headercount++;
+{operator} {printf("\n %s\t\toperator",yytext);} 
+{delimiter} {printf("\n %s\t\tdelimiter",yytext);}  
+{function} {printf("\n %s\t\tfunction",yytext);} function++;
+{keyword} {printf("\n %s\t\tkeyword",yytext);} keyword++;
+{variable} {printf("\n %s\t\tidentifier",yytext);} identifier++;
+%%
+
+int main()
+{
+ yyin=fopen("simple.c","r");
+ yylex();
+ printf("\ntotal keywords are=%d",keyword);
+ printf("\ntotal function are=%d",function);
+ printf("\ntotal header file is=%d",headercount);
+ printf("\ntotal integer is=%d",operand);
+ printf("\ntotal identifier is=%d\n",identifier);
+ return 0;
+}
+
+
+
+
+Input: 
+#include<stdio.h>
+void main()
+{
+        int a;
+        a=10;
+        if (a=10)
+                a=a+20;
+        else
+                a=a+5;
+}
+
+Output:
+
+student@unix4-OptiPlex-360:~$ lex subset.l
+student@unix4-OptiPlex-360:~$ cc lex.yy.c -ll
+student@unix4-OptiPlex-360:~$ ./a.out
+
+ #include<stdio.h>		header file
+
+ void		identifier 
+ main()	function
+
+ {		delimiter
+        
+ int		keyword 
+ a		identifier
+ ;		delimiter
+        
+ a		identifier
+ =		operator
+ 10		integer
+ ;		delimiter
+        
+ if		keyword 
+ (		delimiter
+ a		identifier
+ =		operator
+ 10		integer
+ )		delimiter
+                
+ a		identifier
+ =		operator
+ a		identifier
+ +		operator
+ 20		integer
+ ;		delimiter
+        
+ else		keyword
+                
+ a		identifier
+ =		operator
+ a		identifier
+ +		operator
+ 5		integer
+ ;		delimiter
+
+ }		delimiter
+
+total keywords are=3
+total function are=1
+total header file is=1
+total integer is=4
+
+
