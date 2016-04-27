@@ -1,0 +1,7 @@
+t=a-b
+u=a-c
+v=t+u
+v=v+v
+a=d
+//u=u/v
+//t=u

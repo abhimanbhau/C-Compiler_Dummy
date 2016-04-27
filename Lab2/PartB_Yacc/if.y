@@ -1,6 +1,8 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+
+int count = 0;
 %}
 %token ID NUM IF THEN LE GE EQ NE OR AND ELSE WHILE SWITCH DEFAULT BREAK CASE FOR
 %right '='
@@ -12,11 +14,11 @@
 %left '!'
 %%
 
-S      : ST {printf("IF\n");exit(0);};
-	| ST2 {printf("WHILE\n");exit(0);}
-	| ST3 {printf("SWITCH\n");exit(0);}
-	| ST4 {printf("FOR\n");exit(0);}
-	| ST5 {printf("OPERAND_ERROR\n");exit(0);}
+S      : ST { count++; printf("IF\n");};
+	| ST2 {count++;printf("WHILE\n");}
+	| ST3 {count++;printf("SWITCH\n");}
+	| ST4 {count++;printf("FOR\n");}
+	| ST5 {count++;printf("line %d has error in it\n", count); printf("Error in syntax\n");}
 ST    : IF '(' E2 ')' '{' ST1 '}' ELSE '{' ST1 '}'
         | IF '(' E2 ')' THEN ST1';'
         ;
@@ -54,7 +56,7 @@ E2  : E'<'E
       | ID
       | NUM
       ;
-E3    :E'<'
+E3    :E'>'
       ;
 ST3     :    SWITCH '(' ID ')' '{' B '}'|SWITCH '(' NUM ')' '{' B '}'
          ;
@@ -78,7 +80,8 @@ ST4       : FOR '(' E ';' E2 ';' E ')' '{'ST1'}'
 
 #include "lex.yy.c"
 
-main()
+int main()
 {
   yyparse();
+  return 0;
 }

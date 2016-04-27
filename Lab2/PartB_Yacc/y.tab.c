@@ -115,6 +115,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int count = 0;
+
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -147,7 +149,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 151 "y.tab.c"
+#line 153 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -443,7 +445,7 @@ static const yytype_int8 yyrhs[] =
       22,    41,    -1,    41,     7,    41,    -1,    41,     8,    41,
       -1,    41,     9,    41,    -1,    41,    10,    41,    -1,    41,
       11,    41,    -1,    41,    12,    41,    -1,     3,    -1,     4,
-      -1,    41,    21,    -1,    15,    29,     3,    30,    31,    45,
+      -1,    41,    22,    -1,    15,    29,     3,    30,    31,    45,
       32,    -1,    15,    29,     4,    30,    31,    45,    32,    -1,
       46,    -1,    46,    47,    -1,    46,    46,    -1,    18,     4,
       34,    41,    33,    -1,    17,    33,    -1,    16,    34,    41,
@@ -454,11 +456,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    15,    15,    16,    17,    18,    19,    20,    21,    23,
-      24,    25,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    45,
-      46,    47,    48,    49,    50,    51,    52,    53,    54,    55,
-      57,    59,    59,    62,    63,    66,    67,    69,    72,    74
+       0,    17,    17,    18,    19,    20,    21,    22,    23,    25,
+      26,    27,    29,    30,    31,    32,    33,    34,    35,    36,
+      37,    38,    39,    40,    41,    42,    43,    44,    45,    47,
+      48,    49,    50,    51,    52,    53,    54,    55,    56,    57,
+      59,    61,    61,    64,    65,    68,    69,    71,    74,    76
 };
 #endif
 
@@ -571,7 +573,7 @@ static const yytype_int16 yytable[] =
       19,    21,    20,    28,    91,    92,    93,    30,    11,    71,
       39,    40,    41,    42,    16,    17,   -39,    12,    58,   -39,
       59,    60,    61,    62,    63,    64,    65,    66,    67,    68,
-      69,    70,    18,    65,    72,    13,   110,    14,    77,    78,
+      69,    70,    18,    66,    72,    13,   110,    14,    77,    78,
       79,    80,    81,    82,    83,    84,    19,    43,    85,   110,
      122,    24,    25,   125,    49,    50,    51,    52,    53,    54,
       49,    50,    51,    52,    53,    54,    26,    27,    55,    56,
@@ -589,7 +591,7 @@ static const yytype_int16 yytable[] =
      112,     6,   118,   115,   116,   121,   127,    55,    56,    39,
       40,    41,    42,   126,   128,     7,   117,    31,    32,    33,
       34,    35,    36,    31,    32,    33,    34,    35,    36,   129,
-      98,    37,    38,    39,    40,    41,    42,    44,    38,    39,
+      98,    37,    38,    39,    40,    41,    42,    37,    44,    39,
       40,    41,    42,    49,    50,    51,    52,    53,    54,    49,
       50,    51,    52,     0,     0,     0,     0,    55,    56,    39,
       40,    41,    42,    55,    56,    39,    40,    41,    42,    39,
@@ -646,7 +648,7 @@ static const yytype_uint8 yystos[] =
       48,    29,    29,    29,    29,     0,     3,     4,    21,    41,
       42,    41,    42,    43,     3,     4,     3,     4,    41,    20,
       41,     7,     8,     9,    10,    11,    12,    21,    22,    23,
-      24,    25,    26,    30,    21,    30,    30,    30,    30,     7,
+      24,    25,    26,    30,    22,    30,    30,    30,    30,     7,
        8,     9,    10,    11,    12,    21,    22,    33,    41,    41,
       41,    41,    41,    41,    41,    41,    41,    41,    41,    41,
       41,     6,    31,    31,    31,    31,    31,    41,    41,    41,
@@ -1469,33 +1471,33 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 15 "if.y"
-    {printf("IF\n");exit(0);}
+#line 17 "if.y"
+    { count++; printf("IF\n");}
     break;
 
   case 3:
-#line 16 "if.y"
-    {printf("WHILE\n");exit(0);}
+#line 18 "if.y"
+    {count++;printf("WHILE\n");}
     break;
 
   case 4:
-#line 17 "if.y"
-    {printf("SWITCH\n");exit(0);}
+#line 19 "if.y"
+    {count++;printf("SWITCH\n");}
     break;
 
   case 5:
-#line 18 "if.y"
-    {printf("FOR\n");exit(0);}
+#line 20 "if.y"
+    {count++;printf("FOR\n");}
     break;
 
   case 6:
-#line 19 "if.y"
-    {printf("OPERAND_ERROR\n");exit(0);}
+#line 21 "if.y"
+    {count++;printf("line %d has error in it\n", count); printf("Error in syntax\n");}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1499 "y.tab.c"
+#line 1501 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1709,13 +1711,14 @@ yyreturn:
 }
 
 
-#line 77 "if.y"
+#line 79 "if.y"
 
 
 #include "lex.yy.c"
 
-main()
+int main()
 {
   yyparse();
+  return 0;
 }
 

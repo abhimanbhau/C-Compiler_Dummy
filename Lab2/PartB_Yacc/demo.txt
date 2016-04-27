@@ -1,2 +1,4 @@
+while(a>b){a=b;} 
+while(a>b){a=b;}
+
 if(a<b){a=b+c;}else{a=b+c;}
-while(a<b){a=b+c;}

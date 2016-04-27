@@ -1,7 +1,7 @@
 alpha [A-Za-z]
 digit [0-9]
 %%
-[ \t\n]   
+[ \t\n\r]   
 while	return WHILE;
 switch    return SWITCH;
 case return CASE;
