@@ -8,7 +8,7 @@
 #define PI 3.141592
 int i,j;
 
-int yylex();
+//int yylex();
 void yyerror(const char *s);
 %}
 
